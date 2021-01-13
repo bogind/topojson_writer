@@ -1,0 +1,6 @@
+Makefile
+plugin_upload.py
+pylintrc
+resources.py
+zip_build/
+*.geojson

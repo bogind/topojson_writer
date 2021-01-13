@@ -1,0 +1,29 @@
+<html>
+    <head>
+    <title>A Demo Page</title>
+    <script src="topojson-server.min.js"></script>
+    <script language="javascript">
+        // Completes the full-name control and
+        // shows the submit button
+        function completeAndReturnName() {
+
+        return document.getElementById('output').innerText;
+        }
+    </script>
+    <script language="javascript">
+    function convert(data){
+        console.log(data)
+        geojson = JSON.parse(JSON.stringify(data))
+        var topology = topojson.topology({'gj':geojson});
+        document.getElementById('output').value = JSON.stringify(topology)
+        return JSON.stringify(topology)
+    }
+    
+    </script>
+    </head>
+
+    <body>
+    <p style="display: block; background-color: cyan; height: 0%; width:0%; " id="output">
+        </p>
+    </body>
+</html>
