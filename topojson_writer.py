@@ -243,11 +243,8 @@ class TopoJsonWriter:
                 self.save_topojson(topojson_data)
         os.remove(filename)
         
-
         
-
-
-
+        
     def save_topojson(self,data):
         try:
             if isinstance(data, str):
@@ -257,6 +254,7 @@ class TopoJsonWriter:
                 savePath = self.dlg.save_file_name.filePath()
                 with open(savePath, 'w') as dst:
                     json.dump(data, dst, ensure_ascii=False, indent=4)
+                    self.mb.pushSuccess('Success','File saved to {}'.format(savePath))
 
             else:
                 self.mb.pushWarning('Can\'t save without a file path...','missing Path')
@@ -276,7 +274,7 @@ class TopoJsonWriter:
         self.dlg.show()
         # Populate vector layers to combo box
         self.load_vectors()
-        self.dlg.button.clicked.connect(self.convert)
+        self.dlg.convert.clicked.connect(self.convert)
         # Run the dialog event loop
         result = self.dlg.exec_()
         # See if OK was pressed
