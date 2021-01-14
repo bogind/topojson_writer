@@ -108,7 +108,7 @@
    </property>
    <layout class="QVBoxLayout" name="iframe_holder"/>
   </widget>
-  <widget class="QCheckBox" name="checkBox">
+  <widget class="QCheckBox" name="reload">
    <property name="geometry">
     <rect>
      <x>40</x>

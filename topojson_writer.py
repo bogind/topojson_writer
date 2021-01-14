@@ -241,6 +241,7 @@ class TopoJsonWriter:
                 d = json.dumps(json.load(f))
                 topojson_data = frame.evaluateJavaScript('convert({})'.format(d))
                 self.save_topojson(topojson_data)
+                print(self.dlg.reload.isChecked())
                 if self.dlg.reload.isChecked():
                     self.reload_layer()
         os.remove(filename)
@@ -259,16 +260,19 @@ class TopoJsonWriter:
                     self.mb.pushSuccess('Success','File saved to {}'.format(savePath))
 
             else:
-                self.mb.pushWarning('Error','Missing Path: Can\'t save without a file path...)
+                self.mb.pushWarning('Error','Missing Path: Can\'t save without a file path...')
         except Exception as e:
             self.mb.pushCritical('Error',"Something went wrong with saving the TopoJson, please send us the following error: {}".format(e))  
 
 
     def reload_layer(self):
         filePath = self.dlg.save_file_name.filePath()
-        layer = self.layer_ids[layerI]
+        layers = [layer for layer in QgsProject.instance().mapLayers().values()]
+        layerI = self.dlg.layer_select.currentIndex()
+        layer = layers[layerI]
         newLayerName = layer.name()
         newlayer = self.iface.addVectorLayer(filePath, newLayerName, "ogr")
+        newlayer.setCrs(QgsCoordinateReferenceSystem('EPSG:4326'))
         if not layer or not layer.isValid():
             self.mb.pushCritical('Error',"Layer failed to load!")
 
