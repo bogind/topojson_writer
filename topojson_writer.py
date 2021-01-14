@@ -241,10 +241,12 @@ class TopoJsonWriter:
                 d = json.dumps(json.load(f))
                 topojson_data = frame.evaluateJavaScript('convert({})'.format(d))
                 self.save_topojson(topojson_data)
+                if self.dlg.reload.isChecked():
+                    self.reload_layer()
         os.remove(filename)
         
         
-        
+
     def save_topojson(self,data):
         try:
             if isinstance(data, str):
@@ -257,9 +259,18 @@ class TopoJsonWriter:
                     self.mb.pushSuccess('Success','File saved to {}'.format(savePath))
 
             else:
-                self.mb.pushWarning('Can\'t save without a file path...','missing Path')
+                self.mb.pushWarning('Error','Missing Path: Can\'t save without a file path...)
         except Exception as e:
             self.mb.pushCritical('Error',"Something went wrong with saving the TopoJson, please send us the following error: {}".format(e))  
+
+
+    def reload_layer(self):
+        filePath = self.dlg.save_file_name.filePath()
+        layer = self.layer_ids[layerI]
+        newLayerName = layer.name()
+        newlayer = self.iface.addVectorLayer(filePath, newLayerName, "ogr")
+        if not layer or not layer.isValid():
+            self.mb.pushCritical('Error',"Layer failed to load!")
 
 
     def store_value(self, param):
