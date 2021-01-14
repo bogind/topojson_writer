@@ -24,7 +24,7 @@
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, QUrl
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-from qgis.core import QgsProject, QgsMapLayer
+from qgis.core import QgsProject, QgsMapLayer, QgsCoordinateReferenceSystem
 from qgis import processing
 
 #from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -241,7 +241,6 @@ class TopoJsonWriter:
                 d = json.dumps(json.load(f))
                 topojson_data = frame.evaluateJavaScript('convert({})'.format(d))
                 self.save_topojson(topojson_data)
-                print(self.dlg.reload.isChecked())
                 if self.dlg.reload.isChecked():
                     self.reload_layer()
         os.remove(filename)
